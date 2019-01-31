@@ -27,25 +27,26 @@ import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
 
-object FlinkExample {
-
-  import WordCount._
-
-  val window: Time = Time.of(10, TimeUnit.SECONDS)
+object WordCountKafka {
 
   def main(args: Array[String]): Unit = {
-    val env = StreamExecutionEnvironment.createLocalEnvironment()
+    val env = StreamExecutionEnvironment.getExecutionEnvironment
 
     val properties = new Properties
-    properties.setProperty("bootstrap.servers", "0.0.0.0:9092")
+    properties.setProperty("bootstrap.servers", "test-messaging-kafka:9092")
     properties.setProperty("group.id", "log-word-analysis")
 
     val stream = env.addSource(new FlinkKafkaConsumer[String]("log-analysis", new SimpleStringSchema, properties))
 
-    val wordCounts = countWords(stream, window)
-
-    wordCounts
-        .print()
+    stream
+      .flatMap(line => line.split(" "))
+      .filter(word => !word.isEmpty)
+      .map(word => word.toLowerCase)
+      .map(word => (word, 1))
+      .keyBy(0)
+      .timeWindow(Time.of(10, TimeUnit.SECONDS))
+      .sum(1)
+      .print()
 
     env.execute()
   }
