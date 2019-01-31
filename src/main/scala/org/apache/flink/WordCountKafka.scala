@@ -19,7 +19,7 @@ object WordCountKafka {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
     val properties = new Properties
-    properties.setProperty("bootstrap.servers", ":9092")
+    properties.setProperty("bootstrap.servers", "test-messaging-kafka:9092")
     properties.setProperty("group.id", "log-word-analysis")
 
     val stream = env.addSource(new FlinkKafkaConsumer[String]("log-analysis", new SimpleStringSchema, properties))
