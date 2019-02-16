@@ -13,13 +13,13 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 import org.apache.flink.kubernetes.KubernetesLog
 
-object WordCountKafka {
+object LogParser {
 
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
     val properties = new Properties
-    properties.setProperty("bootstrap.servers", "prod-messaging-kafka:9092")
+    properties.setProperty("bootstrap.servers", "localhost:9092")
     properties.setProperty("group.id", "log-word-analysis")
 
     val stream = env.addSource(new FlinkKafkaConsumer[String]("log-analysis", new SimpleStringSchema, properties))
@@ -35,7 +35,7 @@ object WordCountKafka {
       .keyBy(0)
       .timeWindow(Time.of(10, TimeUnit.SECONDS))
       .sum(1)
-      .print()
+      .writeAsCsv("s3://s3-eu-west-1.amazonaws.com/log-analyser/file1.csv")
 
     env.execute()
   }
