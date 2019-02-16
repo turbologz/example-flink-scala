@@ -28,8 +28,7 @@ object CfSpacesAppsParser {
       .map(data =>
         (new ObjectMapper() with ScalaObjectMapper).registerModule(DefaultScalaModule).readValue(data, classOf[CloudFoundryLog])
       )
-      .flatMap(line => line.message.split(" "))
-      .filter(word => !word.isEmpty)
+      .flatMap(cfLog => cfLog.host.split("."))
       .map(word => word.toLowerCase)
       .map(word => (word, 1))
       .keyBy(0)
