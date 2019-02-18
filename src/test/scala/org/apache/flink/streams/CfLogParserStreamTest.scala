@@ -57,8 +57,8 @@ class CfLogParserStreamTest extends AbstractTestBase {
     assertEquals(cloudFoundryLog.extradata, CollectSink.testResults.head.extradata)
     assertEquals(cloudFoundryLog.msgid, CollectSink.testResults.head.msgid)
   }
-}
 
-object CollectSink {
-  val testResults: mutable.MutableList[CloudFoundryLog] = mutable.MutableList[CloudFoundryLog]()
+  object CollectSink {
+    val testResults: mutable.MutableList[CloudFoundryLog] = mutable.MutableList[CloudFoundryLog]()
+  }
 }
