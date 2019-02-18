@@ -25,7 +25,7 @@ object CfSpacesAppsParser {
     val stream = env.addSource(new FlinkKafkaConsumer[String]("log-analysis", new SimpleStringSchema, properties))
 
     stream
-      .map(data =>
+      .map((data: String) =>
         (new ObjectMapper() with ScalaObjectMapper).registerModule(DefaultScalaModule).readValue(data, classOf[CloudFoundryLog])
       )
       .flatMap(cfLog => cfLog.host.split("."))
