@@ -14,7 +14,7 @@ import scala.collection.mutable
 class CfSpaceAppsParserStreamTest extends AbstractTestBase {
 
   @Test
-  def `should parse string from cloud foundry logs to a json object`(): Unit = {
+  def `should get names of spaces and apps`(): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     env.setParallelism(1)
@@ -23,6 +23,39 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
       def run(ctx: SourceFunction.SourceContext[CloudFoundryLog]) {
         ctx.collect(new CloudFoundryLog(
           "thor.prod.prod-blog-backend",
+          "abc123",
+          "\u001B[34mℹ\u001B[39m \u001B[90m｢wdm｣\u001B[39m: Compiled successfully.\n",
+          1234,
+          "[RTR/11]",
+          "cf.app.user.info",
+          null,
+          null
+        ))
+
+        ctx.collect(new CloudFoundryLog(
+          "thor.prod.prod-blog-backend1",
+          "abc123",
+          "\u001B[34mℹ\u001B[39m \u001B[90m｢wdm｣\u001B[39m: Compiled successfully.\n",
+          1234,
+          "[RTR/11]",
+          "cf.app.user.info",
+          null,
+          null
+        ))
+
+        ctx.collect(new CloudFoundryLog(
+          "thor.prod2.prod-blog-backend2",
+          "abc123",
+          "\u001B[34mℹ\u001B[39m \u001B[90m｢wdm｣\u001B[39m: Compiled successfully.\n",
+          1234,
+          "[RTR/11]",
+          "cf.app.user.info",
+          null,
+          null
+        ))
+
+        ctx.collect(new CloudFoundryLog(
+          "thor.prod2.prod-blog-backend2",
           "abc123",
           "\u001B[34mℹ\u001B[39m \u001B[90m｢wdm｣\u001B[39m: Compiled successfully.\n",
           1234,
@@ -40,16 +73,23 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
       .parse(stream)
       .addSink(new SinkFunction[(String, String)]() {
         def invoke(value: (String, String)) {
-          CollectSink.testResults += value
+          SpacesAppsCollectSink.testResults += value
         }
       })
 
     env.execute("Parse Cloud Foundry Log Test")
 
-    assertEquals(("prod", "prod-blog-backend"), CollectSink.testResults.head)
+    val expected: List[(String, String)] = List(
+      ("prod", "prod-blog-backend"),
+      ("prod", "prod-blog-backend1"),
+      ("prod2", "prod-blog-backend2")
+    )
+
+    assertEquals(expected, SpacesAppsCollectSink.testResults.head)
   }
 
-  object CollectSink {
-    val testResults: mutable.MutableList[(String, String)] = mutable.MutableList[(String, String)]()
-  }
+}
+
+object SpacesAppsCollectSink {
+  val testResults: mutable.MutableList[(String, String)] = mutable.MutableList[(String, String)]()
 }

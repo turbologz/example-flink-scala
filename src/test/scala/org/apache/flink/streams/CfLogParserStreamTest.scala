@@ -42,23 +42,23 @@ class CfLogParserStreamTest extends AbstractTestBase {
       .parse(stream)
       .addSink(new SinkFunction[CloudFoundryLog]() {
         def invoke(value: CloudFoundryLog) {
-          CollectSink.testResults += value
+          JSONCollectSink.testResults += value
         }
       })
 
     env.execute("Parse Cloud Foundry Log Test")
 
-    assertEquals(cloudFoundryLog.host, CollectSink.testResults.head.host)
-    assertEquals(cloudFoundryLog.ident, CollectSink.testResults.head.ident)
-    assertEquals(cloudFoundryLog.message, CollectSink.testResults.head.message)
-    assertEquals(cloudFoundryLog.time, CollectSink.testResults.head.time)
-    assertEquals(cloudFoundryLog.pid, CollectSink.testResults.head.pid)
-    assertEquals(cloudFoundryLog.tag, CollectSink.testResults.head.tag)
-    assertEquals(cloudFoundryLog.extradata, CollectSink.testResults.head.extradata)
-    assertEquals(cloudFoundryLog.msgid, CollectSink.testResults.head.msgid)
+    assertEquals(cloudFoundryLog.host, JSONCollectSink.testResults.head.host)
+    assertEquals(cloudFoundryLog.ident, JSONCollectSink.testResults.head.ident)
+    assertEquals(cloudFoundryLog.message, JSONCollectSink.testResults.head.message)
+    assertEquals(cloudFoundryLog.time, JSONCollectSink.testResults.head.time)
+    assertEquals(cloudFoundryLog.pid, JSONCollectSink.testResults.head.pid)
+    assertEquals(cloudFoundryLog.tag, JSONCollectSink.testResults.head.tag)
+    assertEquals(cloudFoundryLog.extradata, JSONCollectSink.testResults.head.extradata)
+    assertEquals(cloudFoundryLog.msgid, JSONCollectSink.testResults.head.msgid)
   }
+}
 
-  object CollectSink {
-    val testResults: mutable.MutableList[CloudFoundryLog] = mutable.MutableList[CloudFoundryLog]()
-  }
+object JSONCollectSink {
+  val testResults: mutable.MutableList[CloudFoundryLog] = mutable.MutableList[CloudFoundryLog]()
 }
