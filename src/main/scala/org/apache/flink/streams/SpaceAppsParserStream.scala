@@ -8,11 +8,9 @@ class SpaceAppsParserStream {
 
   def parse(stream: DataStream[CloudFoundryLog]): DataStream[(String, String)] = {
     stream
-      .map(cloudFoundryLog => this.splitHost(cloudFoundryLog))
-      .map(split => (split(0), split(1)))
-  }
-
-  def splitHost(cloudFoundryLog: CloudFoundryLog): Array[String] = {
-    cloudFoundryLog.host.split(".")
+      .map {
+        _.host.split('.')
+      }
+      .map(split => (split(1), split(2)))
   }
 }
