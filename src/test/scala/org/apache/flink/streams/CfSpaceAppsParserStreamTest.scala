@@ -16,7 +16,7 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
   @Test
   def `should get names of spaces and apps`(): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
-    env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
+    env.setStreamTimeCharacteristic(TimeCharacteristic.ProcessingTime)
     env.setParallelism(1)
 
     val stream = env.addSource(new SourceFunction[CloudFoundryLog]() {
@@ -71,25 +71,25 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
 
     new SpaceAppsParserStream()
       .parse(stream)
-      .addSink(new SinkFunction[(String, String)]() {
-        def invoke(value: (String, String)) {
+      .addSink(new SinkFunction[(String, String, Int)]() {
+        def invoke(value: (String, String, Int)) {
           SpacesAppsCollectSink.testResults += value
         }
       })
 
     env.execute("Parse Cloud Foundry Log Test")
 
-    val expected: List[(String, String)] = List(
-      ("prod", "prod-blog-backend"),
-      ("prod", "prod-blog-backend1"),
-      ("prod2", "prod-blog-backend2")
+    val expected: List[(String, String, Int)] = List(
+      ("prod", "prod-blog-backend", 1),
+      ("prod2", "prod-blog-backend2", 2),
+      ("prod", "prod-blog-backend1", 1)
     )
 
-    assertEquals(expected, SpacesAppsCollectSink.testResults.head)
+    assertEquals(expected, SpacesAppsCollectSink.testResults.toList)
   }
 
 }
 
 object SpacesAppsCollectSink {
-  val testResults: mutable.MutableList[(String, String)] = mutable.MutableList[(String, String)]()
+  val testResults: mutable.MutableList[(String, String, Int)] = mutable.MutableList[(String, String, Int)]()
 }

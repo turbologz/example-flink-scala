@@ -1,34 +1,20 @@
 package org.apache.flink.streams
 
-import java.util.concurrent.TimeUnit
-
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.cf.CloudFoundryLog
 import org.apache.flink.streaming.api.scala.DataStream
 import org.apache.flink.api.scala._
-import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction
-import org.apache.flink.streaming.api.scala.function.WindowFunction
-import org.apache.flink.streaming.api.windowing.windows.TimeWindow
-import org.apache.flink.util.Collector
 
 class SpaceAppsParserStream {
 
-  def parse(stream: DataStream[CloudFoundryLog]): DataStream[List[(String, String)]] = {
+  def parse(stream: DataStream[CloudFoundryLog]): DataStream[(String, String, Int)] = {
     stream
       .map {
         _.host.split('.')
       }
-      .map(split => (split(1), split(2)))
-      .keyBy("cloudFoundryInfo")
-      .timeWindow(Time.of(10, TimeUnit.SECONDS))
-      .apply(new UniqueWindowFunction())
-  }
-}
-
-class UniqueWindowFunction() extends ProcessWindowFunction[Iterable[(String, String)], Collector[String], String, TimeWindow] {
-
-  override def apply(input: Iterable[(String, String)], out: Collector[String], key: String, window: TimeWindow): Unit = {
-    val discount = input.map(t => t._2).toSet.size
-    out.collect(s"Distinct elements: $discount")
+      .map(split => (split(1), split(2), 1))
+      .keyBy(0, 1)
+      .timeWindow(Time.seconds(10))
+      .sum(2)
   }
 }
