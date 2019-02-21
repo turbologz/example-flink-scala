@@ -4,7 +4,7 @@ package org.apache.flink.cf
 class CloudFoundryLog(val host: String,
                       val ident: String,
                       val message: String,
-                      val time: Number,
+                      val time: Long,
                       val pid: String,
                       val tag: String,
                       val extradata: String,
