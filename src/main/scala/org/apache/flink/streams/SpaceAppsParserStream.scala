@@ -1,18 +1,20 @@
 package org.apache.flink.streams
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
+import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.cf.CloudFoundryLog
+import org.apache.flink.streaming.api.scala.DataStream
+import org.apache.flink.api.scala._
 
 class SpaceAppsParserStream {
 
-  def parse(stream: Stream[String]) {
+  def parse(stream: DataStream[CloudFoundryLog]): DataStream[(String, String, Int)] = {
     stream
-      .map((data) =>
-        (new ObjectMapper() with ScalaObjectMapper)
-          .registerModule(DefaultScalaModule)
-          .readValue(data, classOf[CloudFoundryLog])
-      )
+      .map {
+        _.host.split('.')
+      }
+      .map(split => (split(1), split(2), 1))
+      .keyBy(0, 1)
+      .timeWindow(Time.seconds(10))
+      .sum(2)
   }
 }
