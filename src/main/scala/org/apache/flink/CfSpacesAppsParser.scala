@@ -1,6 +1,7 @@
 package org.apache.flink
 
 import org.apache.flink.api.scala._
+import org.apache.flink.sinks.CfOrgSink
 import org.apache.flink.sources.KafkaSource
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streams.{CfLogParserStream, SpaceAppsParserStream}
@@ -14,7 +15,7 @@ object CfSpacesAppsParser {
 
     new SpaceAppsParserStream()
       .parse(new CfLogParserStream().parse(stream))
-      .print()
+      .addSink(new CfOrgSink().getSink())
 
     env.execute()
   }

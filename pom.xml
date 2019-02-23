@@ -120,6 +120,29 @@ under the License.
 			<version>2.9.8</version>
 		</dependency>
 
+		<!-- Other -->
+		<dependency>
+			<groupId>com.softwaremill.sttp</groupId>
+			<artifactId>core_2.12</artifactId>
+			<version>1.5.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.softwaremill.sttp</groupId>
+			<artifactId>json4s_2.12</artifactId>
+			<version>1.5.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json4s</groupId>
+			<artifactId>json4s-native_2.12</artifactId>
+			<version>3.6.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.softwaremill.sttp</groupId>
+			<artifactId>akka-http-backend_2.12</artifactId>
+			<version>1.5.11</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Unit testing -->
 		<dependency>
 			<groupId>org.scalatest</groupId>
