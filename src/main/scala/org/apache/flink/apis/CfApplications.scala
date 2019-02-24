@@ -7,7 +7,7 @@ class CfApplications {
 
   def createOrg(name: String): requests.Response = {
 
-    requests.post(applicationsUrl, headers = headers, data = Map("name" -> name))
+    requests.post(s"$applicationsUrl/orgs", headers = headers, data = Map("name" -> name))
 
   }
 }

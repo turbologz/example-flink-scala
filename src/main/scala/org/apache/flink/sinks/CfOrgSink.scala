@@ -11,7 +11,10 @@ class CfOrgSink {
     new SinkFunction[(String, String, String, Int)]() {
       def invoke(value: (String, String, String, Int)) {
 
-        print(s"Sending org to sink ${value._1}")
+        println(s"Sending org to sink ${value._1}")
+
+        println(new CfApplications().createOrg(value._1).data.text)
+
 
         new Utils().parseJson[CloudFoundryOrg](new CfApplications().createOrg(value._1).data.text)
       }
