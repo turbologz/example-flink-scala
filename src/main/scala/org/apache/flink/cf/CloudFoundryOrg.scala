@@ -1,3 +1,4 @@
 package org.apache.flink.cf
 
-class CloudFoundryOrg(val id: String, val name: String)
+@SerialVersionUID(100L)
+case class CloudFoundryOrg(id: String, name: String) extends Serializable
