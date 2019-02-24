@@ -126,6 +126,11 @@ under the License.
 			<artifactId>requests_2.11</artifactId>
 			<version>0.1.7</version>
 		</dependency>
+		<dependency>
+			<groupId>com.lihaoyi</groupId>
+			<artifactId>ujson_2.11</artifactId>
+			<version>0.7.1</version>
+		</dependency>
 
 		<!-- Unit testing -->
 		<dependency>

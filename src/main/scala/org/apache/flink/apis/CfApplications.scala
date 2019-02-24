@@ -1,5 +1,7 @@
 package org.apache.flink.apis
 
+import ujson._
+
 class CfApplications {
 
   private val applicationsUrl = "http://prod-turbo-logz-applications-api"
@@ -7,7 +9,9 @@ class CfApplications {
 
   def createOrg(name: String): requests.Response = {
 
-    requests.post(s"$applicationsUrl/orgs", headers = headers, data = Map("name" -> name))
+    requests.post(s"$applicationsUrl/orgs", headers = headers, data = Obj(
+      "name" -> name
+    ).render())
 
   }
 }

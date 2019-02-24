@@ -54,6 +54,8 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-paranamer:2.9.8" level="project" />
     <orderEntry type="library" name="Maven: com.thoughtworks.paranamer:paranamer:2.8" level="project" />
     <orderEntry type="library" name="Maven: com.lihaoyi:requests_2.11:0.1.7" level="project" />
+    <orderEntry type="library" name="Maven: com.lihaoyi:ujson_2.11:0.7.1" level="project" />
+    <orderEntry type="library" name="Maven: com.lihaoyi:upickle-core_2.11:0.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.scalatest:scalatest_2.11:3.0.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.scalactic:scalactic_2.11:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang.modules:scala-xml_2.11:1.0.6" level="project" />
