@@ -26,15 +26,15 @@ class CfOrgSink(cfApplications: CfApplications) {
     this.createApp(space.id, ident, appName)
   }
 
-  def createOrg(name: String): CloudFoundryOrg = {
+  private def createOrg(name: String): CloudFoundryOrg = {
     new Utils().parseJson[CloudFoundryOrg](this.cfApplications.createOrg(name))
   }
 
-  def createSpace(orgId: String, name: String): CloudFoundrySpace = {
+  private def createSpace(orgId: String, name: String): CloudFoundrySpace = {
     new Utils().parseJson[CloudFoundrySpace](this.cfApplications.createSpace(orgId, name))
   }
 
-  def createApp(spaceId: String, appId: String, name: String): CloudFoundryApp = {
+  private def createApp(spaceId: String, appId: String, name: String): CloudFoundryApp = {
     new Utils().parseJson[CloudFoundryApp](this.cfApplications.createApp(spaceId, appId, name))
   }
 }
