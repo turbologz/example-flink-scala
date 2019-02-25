@@ -13,9 +13,17 @@ class CfOrgSink(cfApplications: CfApplications) {
 
     new SinkFunction[(String, String, String, String, Int)]() {
       def invoke(value: (String, String, String, String, Int)) {
-        self.createOrg(value._1)
+        self.createData(value._1, value._2, value._3, value._4)
       }
     }
+  }
+
+  def createData(orgName: String, spaceName: String, appName: String, ident: String): CloudFoundryApp = {
+    val org = this.createOrg(orgName)
+
+    val space = this.createSpace(org.id, spaceName)
+
+    this.createApp(space.id, ident, appName)
   }
 
   def createOrg(name: String): CloudFoundryOrg = {
