@@ -156,6 +156,12 @@ under the License.
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.scalamock</groupId>
+			<artifactId>scalamock_2.11</artifactId>
+			<version>4.1.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -73,8 +73,8 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
 
     new SpaceAppsParserStream()
       .parse(stream)
-      .addSink(new SinkFunction[(String, String, String, Int)]() {
-        def invoke(value: (String, String, String, Int)) {
+      .addSink(new SinkFunction[(String, String, String, String, Int)]() {
+        def invoke(value: (String, String, String, String, Int)) {
           SpacesAppsCollectSink.testResults += value
         }
       })
@@ -82,9 +82,9 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
     env.execute("Parse Cloud Foundry Log Test")
 
     val expected = mutable.MutableList(
-      ("thor", "prod", "prod-blog-backend", 1),
-      ("thor", "prod2", "prod-blog-backend2", 2),
-      ("thor", "prod", "prod-blog-backend1", 1)
+      ("thor", "prod", "prod-blog-backend", "abc123", 1),
+      ("thor", "prod2", "prod-blog-backend2", "abc123", 2),
+      ("thor", "prod", "prod-blog-backend1", "abc123", 1)
     )
 
     assertEquals(expected, SpacesAppsCollectSink.testResults)
@@ -93,7 +93,7 @@ class CfSpaceAppsParserStreamTest extends AbstractTestBase {
 }
 
 object SpacesAppsCollectSink {
-  val testResults: mutable.MutableList[(String, String, String, Int)] = mutable.MutableList[(String, String, String, Int)]()
+  val testResults: mutable.MutableList[(String, String, String, String, Int)] = mutable.MutableList[(String, String, String, String, Int)]()
 
   class Tuple2TimestampExtractor extends AssignerWithPunctuatedWatermarks[CloudFoundryLog] {
 
