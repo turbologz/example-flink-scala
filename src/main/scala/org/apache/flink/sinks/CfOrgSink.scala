@@ -1,7 +1,7 @@
 package org.apache.flink.sinks
 
 import org.apache.flink.apis.CfApplications
-import org.apache.flink.cf.{CloudFoundryOrg, CloudFoundrySpace}
+import org.apache.flink.cf.{CloudFoundryApp, CloudFoundryOrg, CloudFoundrySpace}
 import org.apache.flink.streaming.api.functions.sink.SinkFunction
 import org.apache.flink.utils.Utils
 
@@ -24,5 +24,9 @@ class CfOrgSink(cfApplications: CfApplications) {
 
   def createSpace(orgId: String, name: String): CloudFoundrySpace = {
     new Utils().parseJson[CloudFoundrySpace](this.cfApplications.createSpace(orgId, name))
+  }
+
+  def createApp(spaceId: String, appId: String, name: String): CloudFoundryApp = {
+    new Utils().parseJson[CloudFoundryApp](this.cfApplications.createApp(spaceId, appId, name))
   }
 }

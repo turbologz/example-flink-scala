@@ -20,4 +20,11 @@ class CfApplications {
       .data
       .text
   }
+
+  def createApp(spaceId: String, appId: String, name: String): String = {
+    requests.post(s"$applicationsUrl/apps", headers = headers, data = Obj("spaceId" -> spaceId, "appId" -> appId, "name" -> name)
+      .render())
+      .data
+      .text
+  }
 }

@@ -1,7 +1,7 @@
 package sinks
 
 import org.apache.flink.apis.CfApplications
-import org.apache.flink.cf.{CloudFoundryOrg, CloudFoundrySpace}
+import org.apache.flink.cf.{CloudFoundryApp, CloudFoundryOrg, CloudFoundrySpace}
 import org.apache.flink.sinks.CfOrgSink
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -31,5 +31,18 @@ class CfOrgSinkTest extends FlatSpec with MockFactory {
 
     assertEquals(cfSpace.orgId, "org1")
     assertEquals(cfSpace.name, "testSpace")
+  }
+
+  @Test
+  def `should create a new app`(): Unit = {
+    val cfApplicationsMock = stub[CfApplications]
+
+    (cfApplicationsMock.createApp _).when("space1", "appId1", "testApp").returns("{\"id\": \"id1\", \"spaceId\": \"space1\", \"appId\": \"appId1\", \"name\": \"testApp\"}")
+
+    val cfApp: CloudFoundryApp = new CfOrgSink(cfApplicationsMock).createApp("space1", "appId1", "testApp")
+
+    assertEquals(cfApp.spaceId, "space1")
+    assertEquals(cfApp.appId, "appId1")
+    assertEquals(cfApp.name, "testApp")
   }
 }
