@@ -242,6 +242,18 @@
       <version>1.3</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.scalamock</groupId>
+      <artifactId>scalamock_2.11</artifactId>
+      <version>4.1.0</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>scala-reflect</artifactId>
+          <groupId>org.scala-lang</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <properties>
     <scala.version>2.11.12</scala.version>

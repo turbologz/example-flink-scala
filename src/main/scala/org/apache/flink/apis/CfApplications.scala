@@ -2,7 +2,8 @@ package org.apache.flink.apis
 
 import ujson._
 
-class CfApplications {
+@SerialVersionUID(100L)
+class CfApplications extends Serializable {
 
   private val applicationsUrl = "http://prod-turbo-logz-applications-api"
   private val headers = Map("Content-Type" -> "application/json")

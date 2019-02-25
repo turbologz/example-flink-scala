@@ -5,17 +5,10 @@ import org.apache.flink.cf.{CloudFoundryApp, CloudFoundryOrg, CloudFoundrySpace}
 import org.apache.flink.streaming.api.functions.sink.SinkFunction
 import org.apache.flink.utils.Utils
 
-class CfOrgSink(cfApplications: CfApplications) {
+class CfOrgSink(cfApplications: CfApplications) extends SinkFunction[(String, String, String, String, Int)] {
 
-  private val self = this
-
-  def getSink(): SinkFunction[(String, String, String, String, Int)] = {
-
-    new SinkFunction[(String, String, String, String, Int)]() {
-      def invoke(value: (String, String, String, String, Int)) {
-        self.createData(value._1, value._2, value._3, value._4)
-      }
-    }
+  def invoke(value: (String, String, String, String, Int)) {
+    this.createData(value._1, value._2, value._3, value._4)
   }
 
   def createData(orgName: String, spaceName: String, appName: String, ident: String): CloudFoundryApp = {

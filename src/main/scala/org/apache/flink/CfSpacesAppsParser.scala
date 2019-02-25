@@ -16,7 +16,7 @@ object CfSpacesAppsParser {
 
     new SpaceAppsParserStream()
       .parse(new CfLogParserStream().parse(stream))
-      .addSink(new CfOrgSink(new CfApplications).getSink())
+      .addSink(new CfOrgSink(new CfApplications))
 
     env.execute()
   }
