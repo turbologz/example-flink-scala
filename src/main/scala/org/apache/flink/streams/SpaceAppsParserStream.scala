@@ -7,14 +7,14 @@ import org.apache.flink.api.scala._
 
 class SpaceAppsParserStream {
 
-  def parse(stream: DataStream[CloudFoundryLog]): DataStream[(String, String, Int)] = {
+  def parse(stream: DataStream[CloudFoundryLog]): DataStream[(String, String, String, Int)] = {
     stream
       .map {
         _.host.split('.')
       }
-      .map(split => (split(1), split(2), 1))
-      .keyBy(0, 1)
+      .map(split => (split(0), split(1), split(2), 1))
+      .keyBy(0, 1, 2)
       .timeWindow(Time.seconds(10))
-      .sum(2)
+      .sum(3)
   }
 }

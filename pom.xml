@@ -22,7 +22,7 @@ under the License.
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.apache.flink</groupId>
-	<artifactId>flink-quickstart-scala</artifactId>
+	<artifactId>turbo-logz-flink-analytics-scala</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -118,6 +118,18 @@ under the License.
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-scala_2.11</artifactId>
 			<version>2.9.8</version>
+		</dependency>
+
+		<!-- Other -->
+		<dependency>
+			<groupId>com.lihaoyi</groupId>
+			<artifactId>requests_2.11</artifactId>
+			<version>0.1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lihaoyi</groupId>
+			<artifactId>ujson_2.11</artifactId>
+			<version>0.7.1</version>
 		</dependency>
 
 		<!-- Unit testing -->
